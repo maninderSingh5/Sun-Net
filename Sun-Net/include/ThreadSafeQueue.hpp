@@ -102,10 +102,7 @@ template <typename T>
 bool ThreadSafeQueue<T>::empty()
 {
 	std::lock_guard<std::mutex> headLock(head_mutex);
-	if(head.get() == get_tail())
-		return false;
-		
-	return true;
+	return (head.get() == get_tail());
 }
 
 #endif
