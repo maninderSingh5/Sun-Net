@@ -90,11 +90,12 @@ namespace sun
 			
 			void Send(const message<T>& mesg)
 			{
+				if(!m_qMesgOut)	return;
 				asio::post(
 				[this, mesg]()
 				{
-					bool qOutEmpty = m_qMesgOut.empty();
-					m_qMesgOut.push(mesg);
+					bool qOutEmpty = m_qMesgOut->empty();
+					m_qMesgOut->push(mesg);
 					if(qOutEmpty)
 					{
 						WriteHead();
@@ -146,8 +147,9 @@ namespace sun
 			
 			void WriteHead()
 			{
-				auto tempMesgOut = m_qMesgOut.wait_and_pop();
-				if(!tempMesgOut)	return;
+				if(!m_qMesgOut)	return;
+				auto tempMesgOut = m_qMesgOut->wait_and_pop();
+				
 				asio::async_write(m_socket,asio::buffer(&tempMesgOut->header,sizeof(mesg_header<T>)),
 				[this,tempMesgOut](asio::error_code ec,uint32_t writelenght)
 				{
@@ -174,7 +176,7 @@ namespace sun
 				{
 					if(!ec)
 					{
-						if(!m_qMesgOut.empty())	WriteHead();
+						if(!m_qMesgOut->empty())	WriteHead();
 					}
 					else
 					{
@@ -257,11 +259,14 @@ namespace sun
 				uint64_t out = input;
 				return out;
 			}
-			
+			void SetOutQueue(std::shared_ptr<ThreadSafeQueue<message<T>>> qMesgOut)
+			{
+				m_qMesgOut = qMesgOut;
+			}
 		protected:
 			asio::ip::tcp::socket m_socket;
 			asio::io_context& m_context;
-			ThreadSafeQueue<message<T>> m_qMesgOut;
+			std::shared_ptr<ThreadSafeQueue<message<T>>> m_qMesgOut;
 			ThreadSafeQueue<owned_mesg<T>>& m_qMesgIn;
 			
 			message<T> m_tempMesgIn;
