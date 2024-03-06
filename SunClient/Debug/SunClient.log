@@ -1,0 +1,28 @@
+﻿  SimpleClient.cpp
+  Please define _WIN32_WINNT or _WIN32_WINDOWS appropriately. For example:
+  - add -D_WIN32_WINNT=0x0601 to the compiler command line; or
+  - add _WIN32_WINNT=0x0601 to your project's Preprocessor Definitions.
+  Assuming _WIN32_WINNT=0x0601 (i.e. Windows 7 target).
+D:\dev\cpp\Sun-Net\Sun-Net\include\message.hpp(47,19): warning C4244: 'argument': conversion from 'uint64_t' to 'const unsigned int', possible loss of data
+  (compiling source file 'src/SimpleClient.cpp')
+  D:\dev\cpp\Sun-Net\Sun-Net\include\message.hpp(47,19):
+  the template instantiation context (the oldest one first) is
+  	D:\dev\cpp\Sun-Net\SunClient\src\SimpleClient.cpp(14,7):
+  	see reference to function template instantiation 'void sun::net::message<T>::SerializeArray<_Elem>(DataType *,uint64_t)' being compiled
+          with
+          [
+              T=HeadFlags,
+              _Elem=char,
+              DataType=char
+          ]
+  		D:\dev\cpp\Sun-Net\SunClient\src\SimpleClient.cpp(14,22):
+  		see the first reference to 'sun::net::message<T>::SerializeArray' in 'client::SendText'
+          with
+          [
+              T=HeadFlags
+          ]
+  
+D:\dev\cpp\Sun-Net\Sun-Net\include\message.hpp(49,37): warning C4244: 'argument': conversion from 'uint64_t' to 'size_t', possible loss of data
+  (compiling source file 'src/SimpleClient.cpp')
+  
+  SunClient.vcxproj -> D:\dev\cpp\Sun-Net\Debug\SunClient.exe

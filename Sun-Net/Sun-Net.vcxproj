@@ -137,6 +137,7 @@
   <ItemGroup>
     <ClInclude Include="include\common.hpp" />
     <ClInclude Include="include\connection.hpp" />
+    <ClInclude Include="include\Headers\flags.hpp" />
     <ClInclude Include="include\message.hpp" />
     <ClInclude Include="include\netClient.hpp" />
     <ClInclude Include="include\netServer.hpp" />
