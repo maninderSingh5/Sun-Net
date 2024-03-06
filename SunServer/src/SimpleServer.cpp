@@ -18,13 +18,16 @@ public:
 		input.resize(1024);
 		while(1)
 		{
-		std::cin.getline(input.data(),1024);
+			std::cin.getline(input.data(), 1024);
 		
 		sun::net::message<HeadFlags> msg;
 		msg.header.id = HeadFlags::text;
 		msg.SerializeArray(input.c_str(),input.size());
-		if(tempClient)
-		tempClient->Send(msg);
+		if (tempClient)
+		{
+			tempClient->Send(msg);
+		}
+			
 		}
 	}
 	
@@ -34,7 +37,6 @@ public:
 protected:	
 	virtual bool OnClientConnect(std::shared_ptr<sun::net::connection<HeadFlags>> client)
 	{
-		
 		return true;
 	}
 	virtual void OnClientDisconnect(std::shared_ptr<sun::net::connection<HeadFlags>> client)
@@ -46,7 +48,7 @@ protected:
 	{
 		std::cout<<mesg<<"->";
 		std::cout<<"["<<con->GetID()<<"] ";
-		for(uint i = 0 ;i<mesg.body.size();i++)
+		for(uint32_t i = 0 ;i<mesg.body.size();i++)
 			std::cout<<mesg.body[i];
 		std::cout<<"\n";
 	}

@@ -40,7 +40,7 @@ class ThreadSafeQueue
 		return pop_head();
 	}
 	
-	std::unique_lock<std::mutex>&& wait_for_data(){
+	std::unique_lock<std::mutex> wait_for_data(){
 		std::unique_lock<std::mutex> head_lock(head_mutex);
 		cv_data.wait(head_lock,[&]{
 			return head.get() != get_tail();

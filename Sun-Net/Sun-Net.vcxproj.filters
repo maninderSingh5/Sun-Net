@@ -24,9 +24,6 @@
     <ClInclude Include="include\sun_net.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Sun_Net_android\Asio\Sun-Net\include\connection.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="include\connection.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>

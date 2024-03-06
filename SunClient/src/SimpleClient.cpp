@@ -16,11 +16,14 @@ public:
 	}
 	void printInMesg()
 	{
-		auto d = IncomingQ().wait_and_pop();
-		
-		for(auto& byte : d->mesg.body)
-			std::cout<<byte;
-		std::cout<<"\n";
+		while (1)
+		{
+			auto d = IncomingQ().wait_and_pop();
+
+			for (auto& byte : d->mesg.body)
+				std::cout << byte;
+			std::cout << "\n";
+		}
 	}
 };
 
@@ -35,7 +38,7 @@ int main(int argc, char *argv[])
 	
 	while(1)
 	{
-		std::cin >> input;
+		std::cin.getline(input.data(),1024);
 	
 	c.SendText(input.data());
 	
