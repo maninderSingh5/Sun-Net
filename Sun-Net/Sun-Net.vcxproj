@@ -135,9 +135,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="include\ClientServerCommon\file_manager.hpp" />
+    <ClInclude Include="include\ClientServerCommon\flags.hpp" />
+    <ClInclude Include="include\ClientServerCommon\user_info_container.hpp" />
     <ClInclude Include="include\common.hpp" />
     <ClInclude Include="include\connection.hpp" />
-    <ClInclude Include="include\Headers\flags.hpp" />
     <ClInclude Include="include\message.hpp" />
     <ClInclude Include="include\netClient.hpp" />
     <ClInclude Include="include\netServer.hpp" />

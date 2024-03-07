@@ -160,7 +160,8 @@ namespace sun
 				asio::post(
 					[this,connection,&mesg]()
 					{
-						uint32_t workCategoryFlag = uint32_t(1<<(31 - __builtin_clz(mesg.header.id)));
+						uint32_t flag = mesg.header.id;
+						uint32_t workCategoryFlag = uint32_t(1<<(std::bit_width(flag)));
 						mesg.header.id = Header(~workCategoryFlag & mesg.header.id);
 				
 						switch(workCategoryFlag)

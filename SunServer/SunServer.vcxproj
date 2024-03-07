@@ -71,16 +71,16 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>$(SolutionDir)Sun-Net\vendor\asio\include;$(SolutionDir)Sun-Net\include;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)Sun-Net\vendor\asio\include;$(SolutionDir)Sun-Net\include;$(SolutionDir)SunServer\include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <IncludePath>$(SolutionDir)Sun-Net\vendor\asio\include;$(SolutionDir)Sun-Net\include;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)Sun-Net\vendor\asio\include;$(SolutionDir)Sun-Net\include;$(SolutionDir)SunServer\include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>$(SolutionDir)Sun-Net\vendor\asio\include;$(SolutionDir)Sun-Net\include;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)Sun-Net\vendor\asio\include;$(SolutionDir)Sun-Net\include;$(SolutionDir)SunServer\include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IncludePath>$(SolutionDir)Sun-Net\vendor\asio\include;$(SolutionDir)Sun-Net\include;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)Sun-Net\vendor\asio\include;$(SolutionDir)Sun-Net\include;$(SolutionDir)SunServer\include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -144,6 +144,9 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\SimpleServer.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="include\server.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

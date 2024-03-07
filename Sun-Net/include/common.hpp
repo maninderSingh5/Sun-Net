@@ -1,6 +1,8 @@
 #include <iostream>
 #include <exception>
 #include <memory>
+#include <bit>
+#include <bitset>
 #include <string>
 #include <vector>
 #include <queue>
