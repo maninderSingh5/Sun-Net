@@ -198,7 +198,7 @@ namespace sun
 			
 			// user_id , < (0)currentConnectionFromWhereUserIsConnected, (1)Queue for user to revc messages, (2)user_info, (3)password - collected data while signing in and updated according to user requests>
 			std::unordered_map<std::string,std::tuple<std::shared_ptr<connection<Header>>,std::shared_ptr<ThreadSafeQueue<message<Header>>>,std::shared_ptr<user_info<Header>>,std::string>> m_userDetails;
-			// connection_id, < user_id>  -- this vatiant is used to tell whether the connected client is valid, So that message packets can be sent
+			// connection_id, < user_id>  -- this invariant is used to tell whether the connected client is valid, So that message packets can be sent
 			std::unordered_map<uint32_t,std::string> m_validConnections;
 		 //  FileManager m_fileManager ;
 		};
