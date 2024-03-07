@@ -2,3 +2,6 @@
 #include "message.hpp"
 #include "netClient.hpp"
 #include "netServer.hpp"
+#include "ClientServerCommon/flags.hpp"
+#include "ClientServerCommon/user_info_container.hpp"
+#include "ClientServerCommon/file_manager.hpp"
