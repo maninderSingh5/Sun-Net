@@ -83,13 +83,12 @@ namespace sun
 				if(client && client->IsConnected())
 				{
 					client->Send(mesg);
-					return true; 
+					return true;
 				}else
 				{
 					OnClientDisconnect(client);
 					client.reset();
 					m_deqNConnections.erase(std::remove(m_deqNConnections.begin(),m_deqNConnections.end(),client),m_deqNConnections.end());
-					
 				}
 				return false;
 			}
@@ -123,7 +122,7 @@ namespace sun
 				{
 					std::shared_ptr<owned_mesg<T>> mesg = m_qMesgIn.wait_and_pop();
 					if(!mesg) break;
-					OnMessage(mesg->remote,mesg->mesg);
+					OnMessage(mesg->remote,std::make_shared<message<T>>(mesg->mesg));
 					processedMesg++;
 				}
 			}
@@ -137,7 +136,7 @@ namespace sun
 			{
 				
 			}
-			virtual void OnMessage(std::shared_ptr<connection<T>> client,message<T> mesg)
+			virtual void OnMessage(std::shared_ptr<connection<T>> client,std::shared_ptr<message<T>> mesg)
 			{
 				
 			}
