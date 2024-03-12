@@ -78,17 +78,20 @@ namespace sun
 					WaitForClientConnection();
 				});
 			}
-			void MessageClient(std::shared_ptr<connection<T> > client,message<T> mesg)
+			bool MessageClient(std::shared_ptr<connection<T> > client,message<T> mesg)
 			{
 				if(client && client->IsConnected())
 				{
 					client->Send(mesg);
+					return true; 
 				}else
 				{
 					OnClientDisconnect(client);
 					client.reset();
 					m_deqNConnections.erase(std::remove(m_deqNConnections.begin(),m_deqNConnections.end(),client),m_deqNConnections.end());
+					
 				}
+				return false;
 			}
 			
 			void MessageAllClient(message<T> mesg,std::shared_ptr<connection<T> > exceptThisClient = nullptr)
