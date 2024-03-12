@@ -90,7 +90,9 @@ namespace sun
 			
 			void Send(const message<T>& mesg)
 			{
+				//author may upgrade this routine to throw an exception
 				if(!m_qMesgOut)	return;
+				
 				asio::post(
 				[this, mesg]()
 				{
@@ -102,6 +104,7 @@ namespace sun
 					}
 				});
 			}
+			
 			
 			
 			void ReadHead()
@@ -145,11 +148,37 @@ namespace sun
 				});
 			}
 			
+			void SendPriorityMesg(message<T>& mesg)
+			{
+				asio::async_write(m_socket,asio::buffer(&mesg.header,sizeof(mesg_header<T>)),
+				[this,mesg](asio::error_code ec,uint32_t writelenght)
+				{
+					if(!ec)
+					{
+						if(mesg.header.size > 0)
+						{
+							WriteBody(std::make_shared<message<T>>(mesg));
+						}
+						else
+						{
+							WriteHead();
+						}
+						
+					}
+					else
+					{
+						std::cout<<"[Connection] Async PriorityMesg WriteHead Failed :"<<ec.message()<<"\n";
+						m_socket.close();
+					}
+				});
+			}
+			
+			
 			void WriteHead()
 			{
 				if(!m_qMesgOut)	return;
+				if(m_qMesgOut->empty()) return;
 				auto tempMesgOut = m_qMesgOut->wait_and_pop();
-				
 				asio::async_write(m_socket,asio::buffer(&tempMesgOut->header,sizeof(mesg_header<T>)),
 				[this,tempMesgOut](asio::error_code ec,uint32_t writelenght)
 				{
@@ -158,6 +187,10 @@ namespace sun
 						if(tempMesgOut->header.size > 0)
 						{
 							WriteBody(tempMesgOut);
+						}
+						else
+						{
+							WriteHead();
 						}
 						
 					}
@@ -266,6 +299,9 @@ namespace sun
 		protected:
 			asio::ip::tcp::socket m_socket;
 			asio::io_context& m_context;
+			
+			//client - intitilaized in constructor
+			//server - new queue created in case signup,  old queue from map is used in case login
 			std::shared_ptr<ThreadSafeQueue<message<T>>> m_qMesgOut;
 			ThreadSafeQueue<owned_mesg<T>>& m_qMesgIn;
 			
