@@ -34,7 +34,7 @@ namespace sun
 					
 					m_connection = std::make_unique<connection<T>>(connection<T>::owner::client,
 												m_context,asio::ip::tcp::socket(m_context),m_qMesgIn);
-					m_connection.SetOutQueue(std::make_shared<ThreadSafeQueue<message<T>>>());
+					m_connection->SetOutQueue(std::make_shared<ThreadSafeQueue<message<T>>>());
 					m_connection->ConnectToServer(endpoints);
 					
 					m_contextThread = std::thread([this](){

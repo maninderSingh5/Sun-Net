@@ -129,11 +129,11 @@ public:
 	{
 		std::string user_id, message;
 		std::cout<< "User_id & Message -";
-		std::cin >> user_id >> message;
-//		std::cin.clear();
+		std::cin >> user_id;
+		std::cin.clear();
 //		std::cout << "\n";
 //		std::cout<<"Message - ";
-//		std::cin >> message;
+		std::getline(std::cin, message);
 		std::cout << "\n";
 		SendText(user_id,message);
 	}
@@ -170,7 +170,7 @@ int main(int argc, char *argv[])
 	int attempts = 6;
 	while(--attempts)
 	{
-		c.connect("192.168.1.43",60000);
+		c.connect("127.0.0.1",60000);
 //		std::this_thread::sleep_for(std::chrono::seconds(1));
 		if(c.IsConnected())
 			break;

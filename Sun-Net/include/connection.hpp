@@ -91,8 +91,10 @@ namespace sun
 			void Send(const message<T>& mesg)
 			{
 				//author may upgrade this routine to throw an exception
-				if(!m_qMesgOut)	return;
-				
+				if (!m_qMesgOut)
+				{
+					return;
+				}
 				asio::post(
 				[this, mesg]()
 				{

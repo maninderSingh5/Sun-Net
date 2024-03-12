@@ -278,18 +278,20 @@ namespace sun
 	
 			virtual void OnMessage(std::shared_ptr<connection<Header>> connection,std::shared_ptr<sun::net::message<Header>> mesg)
 			{
+				
 				asio::post(
 					[this,connection,mesg]()
 					{
 						
 						uint32_t flag = mesg->header.id;
-						//uint32_t workCategoryFlag = uint32_t(1<<(std::bit_width(flag)));
-						uint32_t workCategoryFlag = uint32_t(1<<(31 - __builtin_clz(flag)));
+						uint32_t workCategoryFlag = uint32_t(1<<(std::bit_width(flag) - 1));
+						//uint32_t workCategoryFlag = uint32_t(1<<(31 - __builtin_clz(flag)));
 						mesg->header.id = Header(~workCategoryFlag & mesg->header.id);
 						
 						switch(workCategoryFlag)
 						{
 							case Header::SYS_MESSAGE:
+								std::cout << "Incoming Sys_Message\n";
 								SystemMessageHandler(connection, mesg);
 								break;
 						

@@ -7,22 +7,36 @@ D:\dev\cpp\Sun-Net\Sun-Net\include\message.hpp(47,19): warning C4244: 'argument'
   (compiling source file 'src/SimpleClient.cpp')
   D:\dev\cpp\Sun-Net\Sun-Net\include\message.hpp(47,19):
   the template instantiation context (the oldest one first) is
-  	D:\dev\cpp\Sun-Net\SunClient\src\SimpleClient.cpp(14,7):
+  	D:\dev\cpp\Sun-Net\SunClient\src\SimpleClient.cpp(12,7):
   	see reference to function template instantiation 'void sun::net::message<T>::SerializeArray<_Elem>(DataType *,uint64_t)' being compiled
           with
           [
-              T=HeadFlags,
+              T=sun::Header,
               _Elem=char,
               DataType=char
           ]
-  		D:\dev\cpp\Sun-Net\SunClient\src\SimpleClient.cpp(14,22):
+  		D:\dev\cpp\Sun-Net\SunClient\src\SimpleClient.cpp(12,22):
   		see the first reference to 'sun::net::message<T>::SerializeArray' in 'client::SendText'
           with
           [
-              T=HeadFlags
+              T=sun::Header
           ]
   
 D:\dev\cpp\Sun-Net\Sun-Net\include\message.hpp(49,37): warning C4244: 'argument': conversion from 'uint64_t' to 'size_t', possible loss of data
   (compiling source file 'src/SimpleClient.cpp')
+  
+D:\dev\cpp\Sun-Net\Sun-Net\include\message.hpp(36,24): warning C4244: 'argument': conversion from 'uint64_t' to 'const unsigned int', possible loss of data
+  (compiling source file 'src/SimpleClient.cpp')
+  D:\dev\cpp\Sun-Net\Sun-Net\include\message.hpp(36,24):
+  the template instantiation context (the oldest one first) is
+  	D:\dev\cpp\Sun-Net\SunClient\src\SimpleClient.cpp(14,8):
+  	see reference to function template instantiation 'sun::net::message<T> &sun::net::operator <<<unsigned int>(sun::net::message<T> &,const DataType &)' being compiled
+          with
+          [
+              T=sun::Header,
+              DataType=unsigned int
+          ]
+  		D:\dev\cpp\Sun-Net\SunClient\src\SimpleClient.cpp(14,8):
+  		see the first reference to 'sun::net::operator <<' in 'client::SendText'
   
   SunClient.vcxproj -> D:\dev\cpp\Sun-Net\Debug\SunClient.exe
