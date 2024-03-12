@@ -22,25 +22,92 @@ namespace sun
 		//Sign Not Ack will return with an error message which points out what went wrong while creating mew account
 		SIGN_NACK				= 1<<5,
 		//Query used to search for friends user_id in the server
+		//Query packet have further classifications
 		QUERY					 = 1<<6,
 		//by string matching server will send ACK with matched user_id (message body may contain more than 1 user_ids) which further can be used to Request Rooms to interact with other people
-		QACK					  = 1<<7,
+		QUERY_ACK		 	  = 1<<7,
 		
 		//ROOM formed by two friends for chatting
+		//room_request have further classifications
 		ROOM_REQUEST			= 1<<8,
-		ROOM_ACCEPT			 = 1<<9,
-		ROOM_REJECT			 = 1<<10,		
+			
 		
 		// • File headers -- involves operations releated to files
+		FILE_DATA_PACKET     = 1<<9,
+		FILE_SEND	  		 = 1<<10,
+		FILE_SEND_ACK        = 1<<11,
+		FILE_DOWNLOAD		  = 1<<12,
+		FILE_DOWNLOAD_ACK	 = 1<<13,
+		FILE_CANCEL			 = 1<<14,
 		
-		
-		
+		// category of work
 		SYS_MESSAGE			 = 1<<29,
 		FILE_MESSAGE			= 1<<30,
 		TEXT_MESSAGE			= (uint32_t)1<<31
 	};
 	
+	enum RoomRequest : uint32_t
+	{
+		FRIEND_REQUEST ,
+		FRIEND_REQ_ACCEPT,
+		FRIEND_REQ_REJECT
+	};
+	enum Query : uint32_t
+	{
+		SEARCH_QUERY,
+		DOWNLOAD_QUERY
+	};
 	
 }
 
-#endif 
+#endif
+/*
+			Packet's Fromat
+			
+universal fromat 
+	|Header|sizeOfBody|Body|
+	-Header represents type of packets it is.
+	-Size represents the number bytes in the body.
+		if sizeOfBody is zero,then its a body-less packets
+	-Body contains the payload. think body as a Stack data structure, you can Serialize or DeSerialize (Push or pop) data from back
+	
+• |LOGIN & SYS_MESSAGE|Bodysize|password|size|user_id|size|
+
+• |LOGIN_ACK & SYS_MESSAGE|user_info|size|
+
+• |SIGNUP & SYS_MESSAGE|password|size|user_name|size|user_id|size|
+
+• |SIGN_NACK & SYS_MESSAG|size|error_message|
+
+• |QUERY & SYS_MESSAG|...|query_enum_type|
+
+• |QUERY_ACK & SYS_MESSAG|...|query_ack_enum_type|
+
+• |ROOM_REQUEST & SYS_MESSAG|...|request_enum_type|
+
+• |SYS_MESSAGE & SYS_MESSAG|0|
+
+
+....file system pending....
+• |FILE_MESSAGE||||
+
+
+
+• 1) |TEXT_MESSAGE|...|receiver_id|size|
+  2) |TEXT_MESSAGE|...|sender_id|size|
+  		server process it (1) and change the format (2) and send it to receiver
+  		so that the receiver can identify who sent the message.
+*/
+
+
+
+/*
+		ROOM_REQUEST Packet format
+		
+• |ROOM_REQUEST|Size|user_id|size|FRIEND_REQUEST|
+
+• |ROOM_REQUEST|Size|user_id|size|FRIEND_REQ_ACCEPT|
+
+• |ROOM_REQUEST|size|user_id|size|FRIEND_REQ_REJECT|
+
+*/
