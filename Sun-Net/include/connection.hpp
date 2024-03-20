@@ -152,6 +152,29 @@ namespace sun
 			
 			void SendPriorityMesg(message<T>& mesg)
 			{
+				if (!m_qMesgOut)
+				{
+					return;
+				}
+				asio::post(
+					[this, mesg]()
+					{
+						bool qOutEmpty = m_qMesgOut->empty();
+						m_qMesgOut->push_front(mesg);
+						if (qOutEmpty)
+						{
+							WriteHead();
+						}
+					});
+			}
+
+			void SendPendingMesg() 
+			{
+				WriteHead();
+			}
+
+			void SendIndependentMesg(message<T>& mesg)
+			{
 				asio::async_write(m_socket,asio::buffer(&mesg.header,sizeof(mesg_header<T>)),
 				[this,mesg](asio::error_code ec,uint32_t writelenght)
 				{
@@ -159,17 +182,19 @@ namespace sun
 					{
 						if(mesg.header.size > 0)
 						{
-							WriteBody(std::make_shared<message<T>>(mesg));
-						}
-						else
-						{
-							WriteHead();
+							asio::error_code error;
+							asio::write(m_socket,asio::buffer(mesg.body.data(),mesg.body.size()),error);
+							if(error)
+							{
+							std::cout<<"Async SendIndependentMesg Failed :"<<error.message()<<"\n";
+							m_socket.close();
+							}
 						}
 						
 					}
 					else
 					{
-						std::cout<<"[Connection] Async PriorityMesg WriteHead Failed :"<<ec.message()<<"\n";
+						std::cout<<"Async SendIndependentMesg Failed :"<<ec.message()<<"\n";
 						m_socket.close();
 					}
 				});

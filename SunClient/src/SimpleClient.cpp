@@ -110,7 +110,7 @@ public:
 	void getRequestSend()
 	{
 		std::string user_id;
-		std::cout << "Enter friend's user_id - ";
+		std::cout << "Send friend request user_id - ";
 		std::cin >> user_id;
 		std::cout << "\n";
 		SendRoomRequest(user_id);
@@ -130,12 +130,11 @@ public:
 		std::string user_id, message;
 		std::cout<< "User_id & Message -";
 		std::cin >> user_id;
-		std::cin.clear();
-//		std::cout << "\n";
-//		std::cout<<"Message - ";
+
 		std::getline(std::cin, message);
-		std::cout << "\n";
+		std::cout << message << "\n";
 		SendText(user_id,message);
+		
 	}
 	
 	void getInput()
@@ -159,6 +158,8 @@ public:
 			case 5:
 				getMessage();
 				break;
+			default: 
+				return;
 		}
 	}
 	

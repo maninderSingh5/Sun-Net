@@ -144,7 +144,7 @@ namespace sun
 				
 				std::string user_id, password;
 				uint32_t size = 0;
-				std::string error_mesg("User_id Not Found!!");
+				std::string error_mesg("No Data Available");
 				
 				*mesg >> size;
 				if(size)
@@ -170,7 +170,10 @@ namespace sun
 						std::get<0>(d->second) = connection;
 						m_validConnections[connection->GetID()] = d->first;
 						connection->SetOutQueue(std::get<1>(d->second));
+						connection->SendPriorityMesg(ackPacket);
+						connection->SendPendingMesg();
 						std::cout<<"User Login - "<<user_id<<"\n";
+						return;
 					}
 					else
 					{
@@ -179,16 +182,19 @@ namespace sun
 				}
 				else
 				{
+					error_mesg = "User_id Not Found!!";
 					ackPacket.SerializeArray(error_mesg.data(),error_mesg.size());
 				}
 				
-				connection->SendPriorityMesg(ackPacket);
+				connection->SendIndependentMesg(ackPacket);
+
 			}
 			
 			void UserSignUp(std::shared_ptr<connection<Header>> connection,std::shared_ptr<message<Header>> mesg)
 			{
 				message<Header> ackPacket;
 				std::string user_id, user_name, password;
+				std::string error_mesg;
 				uint32_t size = 0;
 				
 				*mesg >> size;
@@ -220,23 +226,28 @@ namespace sun
 					mesg_out_queue = std::make_shared<ThreadSafeQueue<message<Header>>>();
 					
 					auto tuple = std::make_tuple(connection,mesg_out_queue,user_data,password);
-					
+
+					connection->SetOutQueue(std::get<1>(tuple));
+
 					m_userDetails.emplace(user_id,std::move(tuple));
 					m_validConnections.emplace(connection->GetID(),user_id);
-					connection->SetOutQueue(std::get<1>(tuple));
+					
 					
 					ackPacket.header.id = Header(Header::SYS_MESSAGE | Header::LOG_ACK);
 					user_data->Serialize(ackPacket);
+					connection->SendPriorityMesg(ackPacket);
+					connection->SendPendingMesg();
 					std::cout<<"New Sign up - "<<user_id<<", "<<std::get<3>(m_userDetails[user_id])<<"\n";
+					return;
 				}
 				else
 				{
-					std::string error_mesg("user_id already exists!");
+					error_mesg = "user_id already exists!";
 					ackPacket.header.id = Header(Header::SYS_MESSAGE | Header::SIGN_NACK);
 					ackPacket.SerializeArray(error_mesg.data(),error_mesg.size());
 				}
 				
-				connection->SendPriorityMesg(ackPacket);
+				connection->SendIndependentMesg(ackPacket);
 			}
 			
 			void SendOrStore(std::string user_id, std::shared_ptr<message<Header>> mesg)
@@ -248,7 +259,7 @@ namespace sun
 				
 				if(!MessageClient(std::get<0>(userDetail->second),*mesg))
 				{
-					std::cout<<"store -";
+					std::cout<<"message stored";
 					std::get<1>(userDetail->second)->push(*mesg);
 				}
 				
@@ -291,7 +302,6 @@ namespace sun
 						switch(workCategoryFlag)
 						{
 							case Header::SYS_MESSAGE:
-								std::cout << "Incoming Sys_Message\n";
 								SystemMessageHandler(connection, mesg);
 								break;
 						
@@ -312,9 +322,9 @@ namespace sun
 		public:
 			virtual void OnClientValidation(std::shared_ptr<connection<Header>> client)
 			{
-				//send CONNECTION_ACK packet on connection validation
-				message<Header> acknowledgementPacket;
-				acknowledgementPacket.header.id = Header::CONNECTION_ACK;
+			//	send CONNECTION_ACK packet on connection validation
+			//	message<Header> acknowledgementPacket;
+			//	acknowledgementPacket.header.id = Header::CONNECTION_ACK;
 			//	client->Send(acknowledgementPacket);
 			}
 			
