@@ -10,7 +10,7 @@ namespace sun
 	{
 	public:
 	
-				struct value_type
+		struct value_type
 		{
 		public:
 			

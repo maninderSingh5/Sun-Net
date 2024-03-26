@@ -45,6 +45,12 @@
     <ClInclude Include="include\ClientServerCommon\user_info_container.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="include\ClientServerCommon\Database.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ClientServerCommon\NetAttributes.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Source.cpp">

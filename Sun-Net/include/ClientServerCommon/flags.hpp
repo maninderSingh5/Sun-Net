@@ -7,7 +7,7 @@ namespace sun
 {
 	enum Header : uint32_t
 	{
-		// • Systen headers -- set, reset or update user data
+		// • System headers -- set, reset or update user data
 		
 		//server send it to client after successful connection implementation
 		CONNECTION_ACK		 = 1<<0,
@@ -15,7 +15,7 @@ namespace sun
 		LOGIN					 = 1<<1,
 		// Login Ack send by server with body contains user_info
 		LOG_ACK				  = 1<<2,
-		//ERROR while logging in will return from server with error meesage
+		//ERROR while logging in will return from server with error message
 		LOG_NACK				 = 1<<3,
 		//signing in packet contains user_id, user_name,password
 		SIGNUP					= 1<<4,
@@ -32,7 +32,7 @@ namespace sun
 		ROOM_REQUEST			= 1<<8,
 			
 		
-		// • File headers -- involves operations releated to files
+		// • File headers -- involves operations related to files
 		FILE_DATA_PACKET     = 1<<9,
 		FILE_SEND	  		 = 1<<10,
 		FILE_SEND_ACK        = 1<<11,
@@ -46,6 +46,21 @@ namespace sun
 		TEXT_MESSAGE			= (uint32_t)1<<31
 	};
 	
+	enum SysRequest : uint32_t
+	{
+		//server send it to client after successful connection implementation
+		CONNECTION_ACK,
+		//login message contains user_id and password
+		LOGIN,
+		// Login Ack send by server with body contains user_info
+		LOG_ACK,
+		//ERROR while logging in will return from server with error message
+		LOG_NACK,
+		//signing in packet contains user_id, user_name,password
+		SIGNUP,
+		//Sign Not Ack will return with an error message which points out what went wrong while creating mew account
+		SIGN_NACK
+	};
 	enum RoomRequest : uint32_t
 	{
 		FRIEND_REQUEST ,

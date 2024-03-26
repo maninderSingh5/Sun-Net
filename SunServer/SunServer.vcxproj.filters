@@ -23,5 +23,11 @@
     <ClInclude Include="include\server.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="include\AuthManager.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Attributes.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

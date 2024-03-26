@@ -146,6 +146,8 @@
     <ClCompile Include="src\SimpleServer.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="include\Attributes.hpp" />
+    <ClInclude Include="include\AuthManager.hpp" />
     <ClInclude Include="include\server.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
