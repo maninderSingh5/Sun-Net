@@ -3,12 +3,27 @@
 #define NETATTRIBUTES_HPP
 
 #include "sun_net.hpp"
-#include "connection.hpp"
 
 namespace sun
 {
 	namespace net
 	{
+
+		struct UserID : std::string
+		{
+
+		};
+
+		struct Password : std::string
+		{
+
+		};
+
+		struct UserInfo : user_info<Header>
+		{
+
+		};
+
 		struct UserConnection_ptr : std::shared_ptr<connection<Header> >
 		{
 
@@ -18,6 +33,7 @@ namespace sun
 		{
 
 		};
+
 
 	}
 

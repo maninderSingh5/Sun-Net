@@ -7,10 +7,7 @@
 
 namespace sun
 {
-	struct UserID : std::string
-	{
 
-	};
 
 
 }

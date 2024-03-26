@@ -46,7 +46,7 @@ namespace sun
 		TEXT_MESSAGE			= (uint32_t)1<<31
 	};
 	
-	enum SysRequest : uint32_t
+/*	enum SysRequest : uint32_t
 	{
 		//server send it to client after successful connection implementation
 		CONNECTION_ACK,
@@ -61,6 +61,8 @@ namespace sun
 		//Sign Not Ack will return with an error message which points out what went wrong while creating mew account
 		SIGN_NACK
 	};
+
+*/
 	enum RoomRequest : uint32_t
 	{
 		FRIEND_REQUEST ,

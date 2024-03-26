@@ -2,6 +2,7 @@
 #include "message.hpp"
 #include "netClient.hpp"
 #include "netServer.hpp"
+#include "ClientServerCommon/NetAttributes.hpp"
 #include "ClientServerCommon/flags.hpp"
 #include "ClientServerCommon/Database.hpp"
 #include "ClientServerCommon/user_info_container.hpp"
