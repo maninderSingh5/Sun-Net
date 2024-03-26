@@ -1,6 +1,6 @@
 #pragma once
-#ifndef ATTRIBUTES_HPP
-#define ATTRIBUTES_HPP
+#ifndef NETATTRIBUTES_HPP
+#define NETATTRIBUTES_HPP
 
 #include "sun_net.hpp"
 #include "connection.hpp"
