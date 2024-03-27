@@ -4,59 +4,73 @@
 #include "sun_net.hpp"
 
 namespace sun
-{	
-	template <typename Key, class... Value>
+{
 	class Authorizer 
 	{
 	public:
-		Authorizer(Database<Key, Value...>& database)
-			: m_userDB(database)
+		Authorizer()
+			: m_userDB()
 		{
 
 		}
 
-		bool isAuthenticate(Key key)
+		bool isAuthenticated(UserID uid)
 		{
-			return m_userDB.contains(key);
+			return m_userDB.contains(uid);
 		}
 
 		bool isValidConnection(int connection_id)
 		{
 			return m_validConnection.contains(connection_id);
 		}
-
+		
+		template <typename Key, class... Value>
 		void AuthenticateUser(Key key, Value&... args)
 		{
-			m_userDB.set_new_value(key, args);
-			int connection_id = m_userDB.get<UserConnection_ptr>(key)->Getid();
-			m_validConnection.set_new_value(connection_id, key);
+			m_userDB.set_new_value(key, args...);
+			int connection_id = m_userDB.template get<UserConnection_ptr>(key)->GetID();
 			
+			ValidateConnection(connection_id, key);
 		}
 		
-		std::shared_ptr<Key> GetKey(int connection_id)
+		void ValidateConnection(int con_id, const UserID& key)
 		{
-			if (!m_validCOnnection.contains(connection_id))
-				return nullptr;
-
-			return std::make_shared<Key>(m_validConnection.get<Key>(connection_id));
+			m_validConnection.set_new_value(con_id, key);
 		}
-
+		
+		
+		template <typename Value>
+		Value& get(int connection_id)
+		{
+			return (m_validConnection.get<Value>(connection_id));
+		}
+		
+		template <typename Value>
+		Value& get(UserID uid)
+		{
+			return (m_userDB.get<Value>(uid));
+		}
+		
 		void InvalidateConnection(int connection_id)
 		{
-			db_iterator it = m_validConnection.find(connection_id);
+			auto it = m_validConnection.find(connection_id);
 
 			if (it == m_validConnection.end())
 				return;
-			Key key = it->second.get<Key>();
+			UserID key = it->second.template get<UserID>();
 			m_validConnection.erase(it);
-			m_userDB.get<UserConnection_ptr>(key) = nullptr;
+			m_userDB.template get<UserConnection_ptr>(key) = nullptr;
 
 		}
-
-
+		template <class... Value>
+		std::tuple<Value...>& GetUserDetails(UserID uid)
+		{
+			return m_userDB.find(uid)->second.GetData();
+		}
+		
 	private:
-		Database<Key, Value...>& m_userDB;
-		Database<int, Key> m_validConnection;
+		Database<UserID, UserConnection_ptr, UserDataQueue_ptr, UserInfo_ptr,Password> m_userDB;
+		Database<int, UserID> m_validConnection;
 
 	};
 }
