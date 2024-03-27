@@ -44,6 +44,11 @@ namespace sun
 				std::get<T>(data) = val;
 			}
 			
+			std::tuple<Value...>& GetData()
+			{
+				return data;
+			}
+			
 		private:
 			std::tuple<Value...> data;
 			
