@@ -10,7 +10,7 @@ namespace sun
 		struct mesg_header
 		{
 			T id;
-			uint32_t size;
+			uint32_t size = 0;
 		};
 		
 		template <typename T>
@@ -58,9 +58,7 @@ namespace sun
 				static_assert(std::is_standard_layout<DataType>::value,"message assert :datatype too complex to copy");
 				
 				uint64_t i = mesg.body.size() - sizeof(data);
-								
 				std::memcpy(&data,mesg.body.data()+i,sizeof(data));
-				
 				mesg.body.resize(i);	
 				mesg.header.size = mesg.body.size();	
 				return mesg;
@@ -70,7 +68,7 @@ namespace sun
 			void DeSerializeArray(DataType* data, uint64_t bytes)
 			{
 				
-				uint64_t i = body.size() - bytes;
+				uint32_t i = body.size() - bytes;
 								
 				std::memcpy(data,body.data()+i,bytes);
 				
@@ -78,6 +76,35 @@ namespace sun
 				header.size = body.size();	
 				
 			}
+			
+			// when size of datatypes are known
+			template <typename Type, class... Args>
+			void GetData(uint32_t bytes, Type& arg, Args& ... args)
+			{
+				DeSerializeArray(&arg , bytes);
+				
+				if(header.size < 0)
+					throw;
+			
+				GetData(args...);
+			}
+			
+			//when size of datatype is unkown.
+			template <typename Type, class... Args>
+			void GetData(Type* arg, Args* ... args)
+			{
+				uint32_t bytes = 0;
+				*this >> bytes;
+				arg->resize(bytes);
+				DeSerializeArray(arg->data() , bytes);
+				
+				if(header.size < 0)
+					throw;
+			
+				GetData(args...);
+			}
+			
+			void GetData(){}
 		};
 		
 		template <typename T>
@@ -89,7 +116,7 @@ namespace sun
 			std::shared_ptr<connection<T>> remote = nullptr;
 			message<T> mesg;
 			
-friend std::ostream& operator <<(std::ostream& out, const owned_mesg<T>& msg)
+			friend std::ostream& operator <<(std::ostream& out, const owned_mesg<T>& msg)
 			{
 				out << msg.mesg;
 				return out;
