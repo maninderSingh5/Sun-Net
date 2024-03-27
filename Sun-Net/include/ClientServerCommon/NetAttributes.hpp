@@ -6,37 +6,26 @@
 
 namespace sun
 {
-	namespace net
-	{
-
-		struct UserID : std::string
-		{
-
-		};
+		typedef std::string UserID;
 
 		struct Password : std::string
 		{
 
 		};
+		
+		typedef net::user_info<Header> UserInfo;
+		
+		typedef std::shared_ptr<UserInfo> UserInfo_ptr ;
 
-		struct UserInfo : user_info<Header>
-		{
-
-		};
-
-		struct UserConnection_ptr : std::shared_ptr<connection<Header> >
-		{
-
-		};
-
-		struct UserDataQueue_ptr :std::shared_ptr<ThreadSafeQueue<message<Header> > >
-		{
-
-		};
-
-
-	}
-
+		typedef std::shared_ptr<net::connection<Header>> UserConnection_ptr ;
+		
+		typedef net::message<Header> Message;
+		
+		typedef ThreadSafeQueue<Message> UserDataQueue ;
+		
+		typedef std::shared_ptr<UserDataQueue> UserDataQueue_ptr ;
+	
+		
 }
 
 
