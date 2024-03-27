@@ -11,6 +11,9 @@ namespace sun
 		class user_info
 		{
 		public:
+			user_info()
+			{}
+			
 			user_info(std::string id, std::string name)
 			: m_user_id(id), m_userName(name)
 			{}
@@ -30,7 +33,7 @@ namespace sun
 				//implementation pending
 			}
 			
-			bool IsFriendOf(std::string other_user)
+			bool isFriendOf(std::string other_user)
 			{
 				auto d = m_rooms.find(other_user);
 				return (d != m_rooms.end());
@@ -61,6 +64,11 @@ namespace sun
 			{
 				m_roomRequestIn.erase(user_id);
 				m_roomRequestOut.erase(user_id);
+			}
+			
+			bool isIncomingRequest(std::string uid)
+			{
+				return m_roomRequestIn.contains(uid);
 			}
 			
 		private:
