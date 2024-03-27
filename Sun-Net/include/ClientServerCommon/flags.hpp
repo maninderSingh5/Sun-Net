@@ -7,65 +7,61 @@ namespace sun
 {
 	enum Header : uint32_t
 	{
-		// • System headers -- set, reset or update user data
-		
+	
 		//server send it to client after successful connection implementation
-		CONNECTION_ACK		 = 1<<0,
-		//login message contains user_id and password
-		LOGIN					 = 1<<1,
-		// Login Ack send by server with body contains user_info
-		LOG_ACK				  = 1<<2,
-		//ERROR while logging in will return from server with error message
-		LOG_NACK				 = 1<<3,
-		//signing in packet contains user_id, user_name,password
-		SIGNUP					= 1<<4,
-		//Sign Not Ack will return with an error message which points out what went wrong while creating mew account
-		SIGN_NACK				= 1<<5,
+		CONNECTION_ACK,
+		
 		//Query used to search for friends user_id in the server
 		//Query packet have further classifications
-		QUERY					 = 1<<6,
+		QUERY,
 		//by string matching server will send ACK with matched user_id (message body may contain more than 1 user_ids) which further can be used to Request Rooms to interact with other people
-		QUERY_ACK		 	  = 1<<7,
+		QUERY_ACK,
 		
 		//ROOM formed by two friends for chatting
 		//room_request have further classifications
-		ROOM_REQUEST			= 1<<8,
-			
+		ROOM_REQUEST,
 		
-		// • File headers -- involves operations related to files
-		FILE_DATA_PACKET     = 1<<9,
-		FILE_SEND	  		 = 1<<10,
-		FILE_SEND_ACK        = 1<<11,
-		FILE_DOWNLOAD		  = 1<<12,
-		FILE_DOWNLOAD_ACK	 = 1<<13,
-		FILE_CANCEL			 = 1<<14,
-		
-		// category of work
-		SYS_MESSAGE			 = 1<<29,
-		FILE_MESSAGE			= 1<<30,
-		TEXT_MESSAGE			= (uint32_t)1<<31
+		// category of packet
+		SYS_MESSAGE,
+		FILE_MESSAGE,
+		CHAT_MESSAGE
 	};
 	
-/*	enum SysRequest : uint32_t
+	enum ChatMesg : uint32_t
 	{
-		//server send it to client after successful connection implementation
-		CONNECTION_ACK,
+		TEXT,
+		FILE_MESG
+	};
+	
+	// • Systen headers -- set, reset or update user data
+	enum SysRequest : uint32_t
+	{
 		//login message contains user_id and password
 		LOGIN,
 		// Login Ack send by server with body contains user_info
 		LOG_ACK,
-		//ERROR while logging in will return from server with error message
+		//ERROR while logging in will return from server with error meesage
 		LOG_NACK,
 		//signing in packet contains user_id, user_name,password
 		SIGNUP,
 		//Sign Not Ack will return with an error message which points out what went wrong while creating mew account
 		SIGN_NACK
 	};
-
-*/
+	
+	enum FileRequest : uint32_t
+	{
+		
+		FILE_DATA_PACKET,
+		FILE_SEND,
+		FILE_SEND_ACK,
+		FILE_DOWNLOAD,
+		FILE_DOWNLOAD_ACK,
+		FILE_CANCEL
+	};
+	
 	enum RoomRequest : uint32_t
 	{
-		FRIEND_REQUEST ,
+		FRIEND_REQUEST,
 		FRIEND_REQ_ACCEPT,
 		FRIEND_REQ_REJECT
 	};
