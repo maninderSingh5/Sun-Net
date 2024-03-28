@@ -46,6 +46,12 @@ namespace sun
 		}
 		
 		template <typename Value>
+		void set(UserID uid, const Value& arg)
+		{
+			m_validConnection.set<Value>(uid, arg);
+		}
+		
+		template <typename Value>
 		Value& get(UserID uid)
 		{
 			return (m_userDB.get<Value>(uid));
@@ -59,7 +65,7 @@ namespace sun
 				return;
 			UserID key = it->second.template get<UserID>();
 			m_validConnection.erase(it);
-			m_userDB.template get<UserConnection_ptr>(key) = nullptr;
+			m_userDB.template set<UserConnection_ptr>(key,nullptr);
 
 		}
 		template <class... Value>
