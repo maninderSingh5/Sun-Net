@@ -117,17 +117,20 @@ namespace sun
 			*mesg << sender_id.size() ;
 			
 			if(authorizer.template get<UserInfo_ptr>(sender_id)->isIncomingRequest(receiver_id))
-			{
-				Message senders_mesg;
+			{	
 				
-				senders_mesg.SerializeArray(receiver_id.data(),receiver_id.size());
-				senders_mesg << receiver_id.size() ;
+				
+				*mesg << RoomRequest::FRIEND_REQ_ACCEPT;
 		
-				authorizer.template get<UserInfo_ptr>(receiver_id)->AddFriend(sender_id);
-				authorizer.template get<UserDataQueue_ptr>(receiver_id)->push(*mesg);
+				Message senders_mesg;
+				senders_mesg.header.id = Header::ROOM_REQUEST;
+				senders_mesg.SerializeArray(receiver_id.data(), receiver_id.size());
+				senders_mesg << RoomRequest::FRIEND_REQ_ACCEPT;
 				
+				authorizer.template get<UserInfo_ptr>(sender_id)->AddFriend(receiver_id);
+				authorizer.template get<UserDataQueue_ptr>(sender_id)->push(senders_mesg);
 				
-				HandleReqAccepted(connection, std::make_shared<Message>(senders_mesg));
+				HandleReqAccepted(connection, mesg);
 				return;
 			}
 			
