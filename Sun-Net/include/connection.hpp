@@ -217,7 +217,7 @@ namespace sun
 						}
 						else
 						{
-							WriteHead();
+						     if(!m_qMesgOut->empty())  WriteHead();
 						}
 						
 					}
