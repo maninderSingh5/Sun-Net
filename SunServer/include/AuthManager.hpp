@@ -44,18 +44,24 @@ namespace sun
 		{
 			return (m_validConnection.get<Value>(connection_id));
 		}
-		
-		template <typename Value>
-		void set(UserID uid, const Value& arg)
-		{
-			m_validConnection.set<Value>(uid, arg);
-		}
-		
 		template <typename Value>
 		Value& get(UserID uid)
 		{
 			return (m_userDB.get<Value>(uid));
 		}
+		
+		template <typename Value>
+		void set(int connection_id, const Value& arg)
+		{
+			m_validConnection.set<Value>(connection_id, arg);
+		}
+		
+		template <typename Value>
+		void set(UserID uid, Value arg)
+		{
+			m_userDB.set<Value>(uid, arg);
+		}
+		
 		
 		void InvalidateConnection(int connection_id)
 		{
